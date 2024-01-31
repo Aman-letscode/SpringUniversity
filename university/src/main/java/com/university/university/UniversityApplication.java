@@ -1,12 +1,11 @@
 package com.university.university;
 
-import com.university.university.dao.UserRepository;
 import com.university.university.entities.User;
+import com.university.university.repositories.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +16,6 @@ public class UniversityApplication {
 
 		ApplicationContext context = SpringApplication.run(UniversityApplication.class, args);
 		UserRepository userRepository = context.getBean(UserRepository.class);
-
-//		User user = new User();
-//		user.setName("Aman");
-//		user.setCity("Pune");
-//		user.setCourse("Computer");
-//		User user1 = userRepository.save(user);
-//		System.out.println(user1);
 
 		userRepository.deleteAll();
 		User user1 = new User();
@@ -40,16 +32,10 @@ public class UniversityApplication {
 		Iterable<User> result = userRepository.saveAll(users);
 		result.forEach(user ->{
 			System.out.println(user.getId()+" "+user.getName()+" "+user.getCity()+" "+user.getCourse());
-				});
-		Optional<User> optional = userRepository.findById(52);
-		try {
-		User user = optional.get();
+		});
 
-		System.out.println(user.getCourse());
-		}catch (Exception e){
-			throw e;
-		}
 	}
 
 
 }
+

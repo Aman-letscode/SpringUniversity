@@ -1,4 +1,4 @@
-package com.university.university.dao;
+package com.university.university.repositories;
 
 import com.university.university.entities.User;
 import org.springframework.data.repository.CrudRepository;
