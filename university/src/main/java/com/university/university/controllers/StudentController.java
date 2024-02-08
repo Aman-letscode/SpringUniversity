@@ -34,10 +34,10 @@ public class StudentController {
         return ResponseEntity.of(result);
     }
 
-    @PostMapping("/register")
-    public Student createStudent(@RequestBody Student student){
-        return this.studentService.addStudent(student);
-    }
+//    @PostMapping("/register")
+//    public Student createStudent(@RequestBody Student student){
+//        return this.studentService.addStudent(student);
+//    }
 
 
     @DeleteMapping("/students/{Id}")
