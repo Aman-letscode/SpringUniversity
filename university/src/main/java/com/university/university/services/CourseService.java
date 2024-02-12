@@ -31,7 +31,7 @@ public class CourseService {
                 return "Course Code already present";
             }
             Course courseWithSameName = (Course) this.courseRepository.findAllByCourseName(course.getCourseName());
-            if(courseWithSameCode!=null){
+            if(courseWithSameName!=null){
                 return "Course Name already present";
             }
 
@@ -41,6 +41,18 @@ public class CourseService {
             e.printStackTrace();
             return "Not able to save the course";
         }
-        return "failed";
+        return "Successfully Saved";
+    }
+
+
+    public Course getCourseDetails(int id){
+        Course result = null;
+        try{
+            result = (Course) courseRepository.findById(id).stream().findFirst().get();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
     }
 }
+

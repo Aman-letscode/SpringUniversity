@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -40,19 +41,21 @@ public class UserController {
 
     }
 
-    @PostMapping("/getdetails")
-    public ResponseEntity<ModelMap> getDetails(@RequestBody User user){
+    @GetMapping("/details/{id}")
+    public ResponseEntity<ModelMap> getDetails(@PathVariable ("id") int id){
         ModelMap model = new ModelMap();
-        if(user.getEmailId().isEmpty()){
-            model.addAttribute("message","Email not available");
-        }else{
-            UserDetails result = this.detailService.getUserDetails(user);
-            model.addAttribute("messages","success");
+            UserDetails result = this.detailService.getUserDetails(id);
+            if(result==null){
+                model.addAttribute("message","User does not exist.");
+            }else{
+
+            model.addAttribute("message","success");
             model.addAttribute("details",result);
-        }
+            }
+
         return ResponseEntity.ok(model);
     }
-    @PostMapping("/adddetails")
+    @PostMapping("/details")
     public ResponseEntity<ModelMap> addDetails(@RequestBody UserDetails details){
         ModelMap model = new ModelMap();
         if(details.getEmail().isEmpty()){
@@ -64,6 +67,7 @@ public class UserController {
         }
         return ResponseEntity.ok(model);
     }
+
 
 
     @PostMapping("/login")
@@ -78,7 +82,7 @@ public class UserController {
 //            return ResponseEntity.of(Optional.of());
         }
         else {
-            response.addAttribute("error-message","User Not Found");
+            response.addAttribute("message","User Successfully Found");
             response.addAttribute("user",result);
         }
         return ResponseEntity.of(Optional.of(response));

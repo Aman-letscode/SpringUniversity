@@ -1,15 +1,22 @@
 package com.university.university.entities;
 
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
+@Table(name="DETAILS")
 public class UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
+
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
 
     @Column(name = "firstname")
     private String firstname;
@@ -20,6 +27,18 @@ public class UserDetails {
     @Column(name = "phonenumber")
     private String phoneNumber;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name="selectedcourses")
+    @JoinTable(name="user_course",
+    joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "course_id",referencedColumnName = "id"))
+    Set<Course> selectedCourses;
+
+
+
+    public UserDetails(){
+        super();
+    }
     public long getId() {
         return Id;
     }

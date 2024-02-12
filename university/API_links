@@ -1,0 +1,15 @@
+API domain - http://localhost:8080/
+
+//User
+1. Login - GET  -> "/login"
+           POST -> "/login"
+2. Signup - GET  -> "/register"
+            POST -> "/register"
+3. getDetails - GET -> "/details/{id}"
+4. addDetails - POST -> "/details"
+
+
+//Course
+1. Course List - GET -> "/course/list"
+2. Course Details - GET -> "/course/details/{id}"
+3. Add Course - POST -> "/course/add"

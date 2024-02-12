@@ -1,10 +1,9 @@
 package com.university.university.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Course {
@@ -13,10 +12,19 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Id;
 
+    @Column(name = "coursecode")
     private String courseCode;
+
+    @Column(name = "coursename")
     private String courseName;
+
+    @Column(name="duration")
     private int duration;
+    @Column(name="description")
     private String description;
+
+    @ManyToMany(mappedBy = "user_course",fetch = FetchType.LAZY)
+    private Set<User> usersEnrolled;
 
     public int getId() {
         return Id;

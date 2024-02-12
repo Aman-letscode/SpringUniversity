@@ -1,26 +1,35 @@
 package com.university.university.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.NotFound;
+
+enum Role{
+    STUDENT,
+    INSTRUCTOR,
+    ADMIN
+}
 
 @Entity
+@Table(name="USER")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(name = "email",unique = true)
     private String emailId;
     private String password;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="role")
+    private Role role;
 
     public User(int id, String emailId, String password,String role) {
         this.id = id;
         this.emailId = emailId;
         this.password = password;
-        this.role = role;
+        this.role = Role.valueOf(role);
     }
 
     public User() {
@@ -51,11 +60,11 @@ public class User {
     }
 
     public String getRole() {
-        return role;
+        return role.toString();
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.role = Role.valueOf(role);
     }
 
     @Override

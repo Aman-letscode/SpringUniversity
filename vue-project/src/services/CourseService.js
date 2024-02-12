@@ -1,26 +1,25 @@
-import http from "@/http-common";
+import http from '@/http-common'
 
-class CourseService{
-    getAll(){
-        return http.get('/courses');
-    }
+class CourseService {
+  getAll() {
+    return http.get('/course/list')
+  }
 
-    create(data){
-        return http.post('/course/addCourse',data);
-    }
+  create(data) {
+    return http.post('/course/add', data)
+  }
 
-    find(id){
-        return http.get(`/courses/${id}`);
-    }
+  find(id) {
+    return http.get(`/course/details/${id}`)
+  }
 
-    update(id,data){
-        return http.put(`/courses/${id}`,data);
-    }
+  update(id, data) {
+    return http.put(`/course/details/${id}`, data)
+  }
 
-    delete(id){
-        return http.delete(`/courses/${id}`);
-    }
+  delete(id) {
+    return http.delete(`/course/details/${id}`)
+  }
 }
 
-
-export default new CourseService();
+export default new CourseService()

@@ -1,5 +1,5 @@
 <script setup>
-import '../assets/css/main.css';
+import '../assets/css/main.css'
 defineProps({
   msg: {
     type: String,
@@ -8,15 +8,14 @@ defineProps({
 })
 </script>
 
-
 <template>
-    <div class="vue-template"></div>
+  <div class="vue-template"></div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {}
-        }
-    }
+export default {
+  data() {
+    return {}
+  }
+}
 </script>

@@ -5,11 +5,11 @@ import com.university.university.services.CourseService;
 import org.springframework. beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class CourseController {
 
@@ -30,4 +30,41 @@ public class CourseController {
         }
         return ResponseEntity.ok(modelMap);
     }
+
+
+    @GetMapping("/course/details/{id}")
+    public ResponseEntity<ModelMap> getCourseDetails(@PathVariable ("id") int id){
+        ModelMap model = new ModelMap();
+        Course details = this.courseService.getCourseDetails(id);
+        if(details==null){
+            model.addAttribute("messages","Course does not exist");
+        }else{
+            model.addAttribute("messages","Course Details successfully fetched");
+            model.addAttribute("details",details);
+        }
+return ResponseEntity.ok(model);
+    }
+
+    @PostMapping("/course/add")
+    public ResponseEntity<ModelMap> addCourse(@RequestBody Course course){
+        ModelMap model = new ModelMap();
+        System.out.println(course.toString());
+        if(course.getCourseCode()==null){
+            model.addAttribute("status","failed");
+            model.addAttribute("messages","No Course send by the client");
+        }else{
+
+        String response = this.courseService.addCourse(course);
+        if(response.contains("Successfully")){
+            model.addAttribute("status","success");
+            model.addAttribute("messages",response);
+        }
+        else{
+            model.addAttribute("status","failed");
+            model.addAttribute("messages",response);
+        }
+        }
+        return ResponseEntity.ok(model);
+    }
+
 }

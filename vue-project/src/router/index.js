@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    
     {
       path: '/',
       name: 'home',
@@ -27,6 +25,12 @@ const router = createRouter({
 
       component: () => import('../components/ForgetPassword.vue')
     },
+    {
+      path: '/courses',
+      name: 'courses',
+
+      component: () => import('../components/CourseList.vue')
+    }
   ]
 })
 

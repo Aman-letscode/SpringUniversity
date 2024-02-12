@@ -1,13 +1,9 @@
 package com.university.university.services;
 
-import com.university.university.entities.User;
 import com.university.university.entities.UserDetails;
 import com.university.university.repositories.DetailRepository;
-import com.university.university.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class DetailService {
@@ -15,10 +11,10 @@ public class DetailService {
     @Autowired
     private DetailRepository details;
 
-    public UserDetails getUserDetails(User user){
+    public UserDetails getUserDetails(int Id){
         UserDetails result=null;
         try{
-            result =(UserDetails) this.details.findByEmail(user.getEmailId());
+            result =(UserDetails) this.details.findById(Id).stream().findFirst().get();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -35,7 +31,7 @@ public class DetailService {
                 return "Incorrect Phone Format";
             }
 
-            UserDetails data = new UserDetails();
+
             result =(UserDetails) this.details.save(details1);
             if(result==null) {
                 return "Data not able to save";
