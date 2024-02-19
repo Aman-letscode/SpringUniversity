@@ -1,14 +1,19 @@
 package com.university.university.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.SourceType;
+import org.hibernate.annotations.UpdateTimestamp;
 
-enum Role{
-    STUDENT,
-    INSTRUCTOR,
-    ADMIN
-}
+import java.time.LocalDateTime;
+import java.util.Set;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="USER")
 public class User {
@@ -17,63 +22,54 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(name = "name")
+    private String name;
+
+
     @Column(name = "email",unique = true)
-    private String emailId;
+    private String email;
+
+    @Column(name="password")
     private String password;
 
-    @Enumerated(EnumType.STRING)
     @Column(name="role")
-    private Role role;
+    private String role;
 
-    public User(int id, String emailId, String password,String role) {
-        this.id = id;
-        this.emailId = emailId;
+    @Column(name = "phonenumber")
+    private String phoneNumber;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name="selectedcourses")
+    @JoinTable(name="user_course",
+            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id",referencedColumnName = "id"))
+    Set<Course> selectedCourses;
+
+
+    @CreationTimestamp(source = SourceType.DB)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp(source = SourceType.DB)
+    private LocalDateTime updatedAt;
+
+    public User(String name, String email, String password, String role, String phoneNumber) {
+        this.name = name;
+        this.email = email;
         this.password = password;
-        this.role = Role.valueOf(role);
-    }
-
-    public User() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role.toString();
-    }
-
-    public void setRole(String role) {
-        this.role = Role.valueOf(role);
+        this.role = role;
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", emailId='" + emailId + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", selectedCourses=" + selectedCourses +
                 '}';
     }
 }

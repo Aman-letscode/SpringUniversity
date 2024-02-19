@@ -6,7 +6,7 @@ body {
   min-height: 100vh;
   display: flex;
   font-weight: 400;
-  width:100%;
+  width: 100%;
 }
 body,
 html,
@@ -17,15 +17,14 @@ html,
   height: 100%;
 }
 
-#app{
-  width:100%;
+#app {
+  width: 100%;
 }
 
-.vue-template{
+.vue-template {
   width: 100%;
 }
 .vue-tempalte {
-  
   background-color: #ffffff;
 
   justify-content: center;
@@ -132,10 +131,8 @@ select:focus {
   outline: none;
 }
 
-.card-list{
+.card-list {
   display: grid;
   gap: 2rem 2rem;
-  grid-template-columns: repeat(auto-fill,minmax(30%,10fr));
-  
+  grid-template-columns: repeat(auto-fill, minmax(30%, 10fr));
 }
-

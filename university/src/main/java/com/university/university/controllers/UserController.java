@@ -1,8 +1,9 @@
 package com.university.university.controllers;
 
+import com.university.university.dto.LoginDTO;
+import com.university.university.dto.ResponseDTO;
+import com.university.university.dto.SignUpDTO;
 import com.university.university.entities.User;
-import com.university.university.entities.UserDetails;
-import com.university.university.services.DetailService;
 import com.university.university.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +12,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 
 @CrossOrigin
 @RestController
@@ -23,8 +26,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DetailService detailService;
 
     @GetMapping("/login")
     public ResponseEntity<ModelMap> login(){
@@ -41,10 +42,10 @@ public class UserController {
 
     }
 
-    @GetMapping("/details/{id}")
-    public ResponseEntity<ModelMap> getDetails(@PathVariable ("id") int id){
+    @GetMapping("/allUsers")
+    public ResponseEntity<ModelMap> getDetails(){
         ModelMap model = new ModelMap();
-            UserDetails result = this.detailService.getUserDetails(id);
+            List<User> result = this.userService.getAllUsers();
             if(result==null){
                 model.addAttribute("message","User does not exist.");
             }else{
@@ -55,36 +56,29 @@ public class UserController {
 
         return ResponseEntity.ok(model);
     }
-    @PostMapping("/details")
-    public ResponseEntity<ModelMap> addDetails(@RequestBody UserDetails details){
-        ModelMap model = new ModelMap();
-        if(details.getEmail().isEmpty()){
-            model.addAttribute("message","Email not available");
-        }else{
-            String result = this.detailService.addDetails(details);
-            model.addAttribute("status",result);
-//            model.addAttribute("details",result);
-        }
-        return ResponseEntity.ok(model);
-    }
+//    @PostMapping("/details")
+//    public ResponseEntity<ModelMap> addDetails(@RequestBody UserDetails details){
+//        ModelMap model = new ModelMap();
+//        if(details.getEmail().isEmpty()){
+//            model.addAttribute("message","Email not available");
+//        }else{
+//            String result = this.detailService.addDetails(details);
+//            model.addAttribute("status",result);
+////            model.addAttribute("details",result);
+//        }
+//        return ResponseEntity.ok(model);
+//    }
+
 
 
 
     @PostMapping("/login")
-    public ResponseEntity<ModelMap> loginUser(@RequestBody User user,Model model){
-        model.addAttribute("user",user);
-        String str = model.toString();
-        System.out.println(str);
-        User result = this.userService.checkUser(user);
-        ModelMap response = new ModelMap();
-        if(result==null){
-            response.addAttribute("error-message","User Not Found");
-//            return ResponseEntity.of(Optional.of());
-        }
-        else {
-            response.addAttribute("message","User Successfully Found");
-            response.addAttribute("user",result);
-        }
+    public ResponseEntity<?> loginUser(@RequestBody LoginDTO user){
+
+        ResponseDTO response = this.userService.checkUser(user);
+
+
+
         return ResponseEntity.of(Optional.of(response));
 
     }
@@ -99,16 +93,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ModelMap> registerUser(@RequestBody User user){
+    public ResponseEntity<?> registerUser(@RequestBody SignUpDTO details){
         ModelMap model=new ModelMap();
 //User user =(User) model.asMap().get("user");
-        System.out.println(user.equals(null));
-        user = this.userService.registerUser(user);
-        if(user==null){
-            model.addAttribute("error",new String("User Not able to save. Please try again."));
+        System.out.println(details == null);
+        ResponseDTO response = this.userService.registerUser(details);
 
-        }else model.addAttribute("message", "successfully Saved.");
-        return ResponseEntity.of(Optional.of((ModelMap) model));
+        return ResponseEntity.of(Optional.of(response));
     }
 
 

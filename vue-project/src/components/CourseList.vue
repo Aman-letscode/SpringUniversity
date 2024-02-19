@@ -9,21 +9,17 @@ defineProps({
 </script>
 
 <template>
-  
-
   <div class="card-list">
-
-      <div class="card" style="width: 18rem"  v-for="(course, index) in courses">
-          <div class="card-body">
-              <h5 class="card-title">{{ course.courseCode }} : {{ course.courseName }}</h5>
-              <p class="card-text">
-                  {{course.description}}
-                </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
+    <div class="card" style="width: 18rem" v-for="(course, index) in courses">
+      <div class="card-body">
+        <h5 class="card-title">{{ course.courseCode }} : {{ course.courseName }}</h5>
+        <p class="card-text">
+          {{ course.description }}
+        </p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
     </div>
-
+  </div>
 </template>
 
 <script>

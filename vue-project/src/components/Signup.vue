@@ -15,19 +15,17 @@ defineProps({
       <h3>Sign Up</h3>
       <div class="mb-3">
         <label>Full Name</label>
-        <input type="text" class="form-control form-control-lg" v-model="user.name"/>
+        <input type="text" class="form-control form-control-lg" v-model="user.name" />
       </div>
       <div class="mb-3">
         <label>Email address</label>
-        <input type="email" class="form-control form-control-lg" v-model="user.emailId"/>
+        <input type="email" class="form-control form-control-lg" v-model="user.emailId" />
       </div>
       <div class="mb-3">
         <label>Password</label>
-        <input type="password" class="form-control form-control-lg" v-model="user.password"/>
+        <input type="password" class="form-control form-control-lg" v-model="user.password" />
       </div>
       <div class="mb-3">
-      
-                  
         <label for="language" id="role-label">Role</label>
         <select name="role" class="form-control form-control-lg" id="role" v-model="user.role">
           <div class="mb-3">dkjds</div>
@@ -47,11 +45,11 @@ defineProps({
 export default {
   data() {
     return {
-      user:{
-        name:'',
-        emailId:'',
-        password:'',
-        role:''
+      user: {
+        name: '',
+        emailId: '',
+        password: '',
+        role: ''
       }
     }
   }

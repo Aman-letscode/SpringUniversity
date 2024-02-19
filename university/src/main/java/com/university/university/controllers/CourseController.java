@@ -1,5 +1,7 @@
 package com.university.university.controllers;
 
+import com.university.university.dto.AddCourseDTO;
+import com.university.university.dto.CourseDTO;
 import com.university.university.entities.Course;
 import com.university.university.services.CourseService;
 import org.springframework. beans.factory.annotation.Autowired;
@@ -16,10 +18,10 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
     @GetMapping("/course/list")
-    public ResponseEntity<ModelMap> courseList(){
+    public ResponseEntity<?> courseList(){
         ModelMap modelMap = new ModelMap();
 
-        List<Course> courselist =(List<Course>) this.courseService.getCourseList();
+        List<CourseDTO> courselist =(List<CourseDTO>) this.courseService.getCourseList();
         if(courselist==null){
             modelMap.addAttribute("message","No Courses Available");
         }
@@ -32,10 +34,10 @@ public class CourseController {
     }
 
 
-    @GetMapping("/course/details/{id}")
-    public ResponseEntity<ModelMap> getCourseDetails(@PathVariable ("id") int id){
+    @GetMapping("/course/details/{coursecode}")
+    public ResponseEntity<?> getCourseDetails(@PathVariable ("coursecode") String coursecode){
         ModelMap model = new ModelMap();
-        Course details = this.courseService.getCourseDetails(id);
+        CourseDTO details = this.courseService.getCourseDetails(coursecode);
         if(details==null){
             model.addAttribute("messages","Course does not exist");
         }else{
@@ -46,7 +48,7 @@ return ResponseEntity.ok(model);
     }
 
     @PostMapping("/course/add")
-    public ResponseEntity<ModelMap> addCourse(@RequestBody Course course){
+    public ResponseEntity<?> addCourse(@RequestBody AddCourseDTO course){
         ModelMap model = new ModelMap();
         System.out.println(course.toString());
         if(course.getCourseCode()==null){

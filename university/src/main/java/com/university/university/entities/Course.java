@@ -2,9 +2,18 @@ package com.university.university.entities;
 
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Course {
 
@@ -23,48 +32,22 @@ public class Course {
     @Column(name="description")
     private String description;
 
-    @ManyToMany(mappedBy = "user_course",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "selectedCourses",fetch = FetchType.LAZY)
     private Set<User> usersEnrolled;
 
-    public int getId() {
-        return Id;
-    }
+    @CreationTimestamp(source = SourceType.DB)
+    private LocalDateTime createdAt;
 
-    public void setId(int id) {
-        Id = id;
-    }
+    @UpdateTimestamp(source = SourceType.DB)
+    private LocalDateTime updatedAt;
 
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCode) {
+    public Course(String courseCode, String courseName, int duration, String description) {
         this.courseCode = courseCode;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
         this.courseName = courseName;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
         this.duration = duration;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
+
 
     @Override
     public String toString() {
@@ -74,6 +57,9 @@ public class Course {
                 ", courseName='" + courseName + '\'' +
                 ", duration=" + duration +
                 ", description='" + description + '\'' +
+                ", usersEnrolled=" + usersEnrolled +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

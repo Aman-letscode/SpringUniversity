@@ -15,14 +15,24 @@ import '../assets/css/main.css'
       <h3>Sign In</h3>
       <div class="mb-1">
         <label>Email address</label>
-        <input type="email" name="email" class="form-control form-control-lg" v-model="user.emailId"/>
+        <input
+          type="email"
+          name="email"
+          class="form-control form-control-lg"
+          v-model="user.emailId"
+        />
       </div>
       <div class="mb-3">
         <label>Password</label>
-        <input type="password" name="password" class="form-control form-control-lg" v-model="user.password" />
+        <input
+          type="password"
+          name="password"
+          class="form-control form-control-lg"
+          v-model="user.password"
+        />
       </div>
 
-      <button type="submit" class="btn btn-dark btn-lg btn-block" >Login</button>
+      <button type="submit" class="btn btn-dark btn-lg btn-block">Login</button>
       <p class="forgot-password text-right mt-2 mb-4">
         <router-link to="/forgot-password">Forgot password ?</router-link>
       </p>
@@ -41,15 +51,13 @@ export default {
         id: null,
         emailId: '',
         password: '',
-        role:''
+        role: ''
       },
       submitted: false
     }
   },
   methods: {
-    handleSubmit(){
-      
-    },
+    handleSubmit() {},
     login() {
       this.user.role = 'student'
       console.log(this.user)
@@ -66,7 +74,6 @@ export default {
         .catch((e) => {
           alert(e)
         })
-        
     }
   }
 }

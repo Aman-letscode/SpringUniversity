@@ -1,10 +1,13 @@
 package com.university.university.services;
 
+import com.university.university.dto.AddCourseDTO;
+import com.university.university.dto.CourseDTO;
 import com.university.university.entities.Course;
 import com.university.university.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -12,18 +15,27 @@ public class CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
-    public List<Course> getCourseList(){
-        List<Course> courselist = null;
+    public List<CourseDTO> getCourseList(){
+            List<CourseDTO> result = new ArrayList<>();
         try{
+        List<Course> courselist = null;
             courselist = (List<Course>) this.courseRepository.findAll();
+            courselist.forEach(course -> {
+                result.add(new CourseDTO(
+                        course.getCourseCode(),
+                        course.getCourseName(),
+                        course.getDuration(),
+                        course.getDescription(),
+                        course.getCreatedAt().toLocalDate()));
+            });
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        return courselist;
+        return result;
     }
 
-    public String addCourse(Course course){
+    public String addCourse(AddCourseDTO course){
         Course result = null;
         try{
             Course courseWithSameCode = (Course) this.courseRepository.findAllByCourseCode(course.getCourseCode());
@@ -35,7 +47,7 @@ public class CourseService {
                 return "Course Name already present";
             }
 
-            result = (Course) this.courseRepository.save(course);
+           result= (Course) this.courseRepository.save(new Course(course.getCourseCode(),course.getCourseName(),course.getDuration(),course.getDescription()));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -45,10 +57,16 @@ public class CourseService {
     }
 
 
-    public Course getCourseDetails(int id){
-        Course result = null;
+    public CourseDTO getCourseDetails(String coursecode){
+        CourseDTO result = null;
         try{
-            result = (Course) courseRepository.findById(id).stream().findFirst().get();
+            Course course = (Course) courseRepository.findAllByCourseCode(coursecode);
+            result= new CourseDTO(
+                    course.getCourseCode(),
+                    course.getCourseName(),
+                    course.getDuration(),
+                    course.getDescription(),
+                    course.getCreatedAt().toLocalDate());
         }catch (Exception e){
             e.printStackTrace();
         }
